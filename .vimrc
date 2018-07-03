@@ -20,7 +20,19 @@ let airline#extensions#syntastic#stl_format_err = '%E{[%e(#%fe)]}'
 let airline#extensions#syntastic#warning_symbol = 'W:'
 "statusline warning format
 let airline#extensions#syntastic#stl_format_err = '%W{[%w(#%fw)]}'
+"enable powerline fonts
+let g:airline_powerline_fonts=1
+"tabline config
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#formatter='default'
 
+"config for NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"toggle NERDTree with ctrl-n
+map <C-n> :NERDTreeToggle<CR>
+let NERDTreeMinimalUI=1
+let NERDTreeDirArrows=1
 
 "adjust tabs to use spaces
 set tabstop=2
@@ -28,6 +40,9 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab
 set smartindent
+
+"automatically remove trailing whitespace
+autocmd BufWritePre * %s/\s\+$//e
 
 "autocomplete (), '', [], {} and double quotes
 ino " ""<left>
@@ -38,7 +53,30 @@ ino { {}<left>
 ino {<CR> {<CR>}<ESC>0
 ino {;<CR> {<CR>};<ESC>0
 
+"map escape key to caps for entering/exiting normal
+inoremap jf <Esc>
+inoremap fj <Esc>
+
+"open file in browser
+nnoremap <F8> :silent update<Bar>silent !chromium-browser %:p &<CR>
+
+"autocomplete html tags -- experimental
+autocmd FileType html inoremap ;d <div></div><Esc>FdT>i<Enter><Enter><Esc>1ki<c-t>
+autocmd FileType html inoremap ;sp <span></span><Esc>FsT>i
+autocmd FileType html inoremap ;1 <h1></h1><Esc>FhT>i
+autocmd FileType html inoremap ;2 <h2></h2><Esc>FhT>i
+autocmd FileType html inoremap ;3 <h3></h3><Esc>FhT>i
+autocmd FileType html inoremap ;4 <h4></h4><Esc>FhT>i
+autocmd FileType html inoremap ;5 <h5></h5><Esc>FhT>i
+autocmd FileType html inoremap ;6 <h6></h6><Esc>FhT>i
+autocmd FileType html inoremap ;p <p></p><Esc>FpT>i<Enter><Enter><Esc>1ki<c-t>
+autocmd FileType html inoremap ;a <a href='#'></a><Esc>FaT#i<Backspace>
+autocmd FileType html inoremap ;md <main></main><Esc>FmT>i<Enter><Enter><Esc>1ki<c-t>
+autocmd FileType html inoremap ;sd <section></section><Esc>FsT>i<Enter><Enter><Esc>1ki<S-Tab><C-D>
+autocmd FileType html inoremap ;btn <button></button><Esc>FbT>i
+
 "configure theme and colorscheme
+let base16colorspace=256
 set t_Co=256
 set termguicolors
 let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
@@ -48,8 +86,8 @@ let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
 set background=dark
 
 "set colorscheme
-colorscheme deus
-let g:deus_termcolors=256
+colorscheme gruvbox
+let g:gruvbox_termcolors=256
 
 "keep transparent background
 hi Normal guibg=NONE ctermbg=NONE
@@ -64,3 +102,5 @@ set novisualbell
 set ruler
 set backspace=indent,eol,start
 set hidden
+set autoread
+
