@@ -2,6 +2,7 @@ set nocompatible
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
+filetype plugin on
 
 "set encoding
 set encoding=utf-8
@@ -44,18 +45,21 @@ set smartindent
 "automatically remove trailing whitespace
 autocmd BufWritePre * %s/\s\+$//e
 
+"copy and paste
+vnoremap <C-c> "+y
+map <C-v> "+P
+
 "autocomplete (), '', [], {} and double quotes
-ino " ""<left>
-ino ' ''<left>
-ino ( ()<left>
-ino [ []<left>
-ino { {}<left>
-ino {<CR> {<CR>}<ESC>0
-ino {;<CR> {<CR>};<ESC>0
+"ino " ""<left>
+"ino ' ''<left>
+"ino ( ()<left>
+"ino [ []<left>
+"ino { {}<left><ESC>2li
+"ino {<CR> {<CR>}<ESC>0
+"ino {;<CR> {<CR>};<ESC>0
 
 "map escape key to caps for entering/exiting normal
 inoremap jf <Esc>
-inoremap fj <Esc>
 
 "open file in browser
 nnoremap <F8> :silent update<Bar>silent !chromium-browser %:p &<CR>
@@ -90,10 +94,14 @@ colorscheme gruvbox
 let g:gruvbox_termcolors=256
 
 "keep transparent background
+"autocmd VimEnter * hi Normal guibg=NONE ctermbg=NONE
 hi Normal guibg=NONE ctermbg=NONE
 
+"transparent gutter
+hi SignColumn guibg=NONE ctermbg=NONE
+
 "helpers - show matching brackets, etc...
-set clipboard=autoselect
+"set clipboard=autoselect
 set number
 set showmatch
 set confirm
@@ -103,4 +111,6 @@ set ruler
 set backspace=indent,eol,start
 set hidden
 set autoread
+set showcmd
+
 
